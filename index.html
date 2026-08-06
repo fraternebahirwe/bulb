@@ -3,12 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interrupteur Interactif Animé</title>
+    <title>L'Expérience Visuelle Ultime</title>
     <style>
+        /* ==========================================================================
+           1. CORE DESIGN & AURORES COSMIQUES (MÉCH GRADIENTS ANIMÉS)
+           ========================================================================== */
+        :root {
+            --neon-blue: #00f2fe;
+            --neon-purple: #4facfe;
+            --neon-pink: #ff007f;
+            --dark-space: #030712;
+        }
+
         body {
-            font-family: 'Segoe UI', system-ui, sans-serif;
-            background-color: #0f172a;
-            color: #f8fafc;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: var(--dark-space);
+            color: #ffffff;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -16,142 +26,261 @@
             min-height: 100vh;
             margin: 0;
             padding: 20px;
+            overflow: hidden;
+            perspective: 1000px; /* Prépare l'espace pour les effets 3D */
         }
 
+        /* Système de particules et d'aurores fluides en arrière-plan */
+        body::before, body::after {
+            content: '';
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(140px);
+            opacity: 0;
+            z-index: -1;
+            transition: opacity 1s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body.light-on::before {
+            opacity: 0.45;
+            width: 600px;
+            height: 600px;
+            background: conic-gradient(from 0deg, var(--neon-blue), var(--neon-pink), var(--neon-blue));
+            top: -10%;
+            left: -10%;
+            animation: spinAurora 15s linear infinite;
+        }
+
+        body.light-on::after {
+            opacity: 0.35;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, var(--neon-pink), transparent);
+            bottom: -5%;
+            right: -5%;
+            animation: pulseAurora 8s ease-in-out infinite alternate;
+        }
+
+        @keyframes spinAurora {
+            0% { transform: rotate(0deg) translate(0, 0) scale(1); }
+            50% { transform: rotate(180deg) translate(50px, 30px) scale(1.2); }
+            100% { transform: rotate(360deg) translate(0, 0) scale(1); }
+        }
+
+        @keyframes pulseAurora {
+            0% { transform: scale(1) translate(0, 0); }
+            100% { transform: scale(1.4) translate(-80px, -50px); }
+        }
+
+        /* Particules en suspension */
+        .particles {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+        body.light-on .particles { opacity: 0.2; }
+
+        /* ==========================================================================
+           2. INTERFACE SURÉALISTE (GLASSMORPHISM INTERACTIF)
+           ========================================================================== */
         .container {
             text-align: center;
-            background: #1e293b;
-            padding: 30px;
-            border-radius: 16px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-            max-width: 400px;
+            background: rgba(255, 255, 255, 0.01);
+            padding: 40px;
+            border-radius: 32px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            max-width: 420px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            transform: rotateX(5deg);
         }
 
+        body.light-on .container {
+            background: rgba(10, 15, 30, 0.7);
+            border: 1px solid rgba(0, 242, 254, 0.25);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            box-shadow: 0 20px 50px rgba(0, 242, 254, 0.15), 
+                        inset 0 1px 1px rgba(255, 255, 255, 0.2);
+            transform: rotateX(0deg) scale(1.02);
+        }
+
+        /* Typographie Chromée */
         h2 {
-            color: #38bdf8;
+            font-size: 2rem;
+            color: #64748b;
             margin-top: 0;
+            letter-spacing: -0.5px;
+            transition: all 0.5s ease;
+        }
+
+        body.light-on h2 {
+            background: linear-gradient(135deg, #fff 30%, var(--neon-blue), var(--neon-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 2px 10px rgba(0, 242, 254, 0.3));
         }
 
         p {
-            color: #94a3b8;
+            color: #475569;
             font-size: 0.95rem;
-            line-height: 1.5;
+            line-height: 1.6;
+            transition: color 0.5s ease;
         }
 
+        body.light-on p { color: #94a3b8; }
+
+        /* Écrin de l'image de type Hologramme */
         .image-box {
-            margin: 25px 0;
-            background: #0f172a;
-            padding: 15px;
-            border-radius: 12px;
+            margin: 30px 0;
+            background: #090d16;
+            padding: 12px;
+            border-radius: 24px;
             display: inline-block;
-            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.02);
+            position: relative;
+            transition: all 0.5s ease;
+        }
+
+        body.light-on .image-box {
+            border-color: var(--neon-pink);
+            box-shadow: 0 0 30px rgba(255, 0, 127, 0.25), inset 0 0 15px rgba(255, 0, 127, 0.2);
         }
 
         img {
-            width: 150px;
-            height: 200px;
+            width: 160px;
+            height: 210px;
             object-fit: cover;
-            border-radius: 8px;
+            border-radius: 14px;
             display: block;
         }
 
-        /* Classe d'animation CSS déclenchée par le JS */
         .animate-swap {
-            animation: reveal 0.4s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+            animation: hyperReveal 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
         }
 
-        /* Animation combinant un léger zoom et un fondu lumineux */
-        @keyframes reveal {
-            0% {
-                opacity: 0.3;
-                transform: scale(0.95);
-                filter: brightness(1.8);
-            }
-            100% {
-                opacity: 1;
-                transform: scale(1);
-                filter: brightness(1);
-            }
+        @keyframes hyperReveal {
+            0% { opacity: 0; transform: scale(0.9) translateY(10px); filter: brightness(3) contrast(1.5); }
+            100% { opacity: 1; transform: scale(1) translateY(0); filter: brightness(1) contrast(1); }
         }
 
+        /* ==========================================================================
+           3. BOUTONS ULTRA-INTERACTIFS (BALAYAGE QUANTIQUE)
+           ========================================================================== */
         .controls {
             display: flex;
-            gap: 12px;
+            gap: 15px;
             justify-content: center;
         }
 
         button {
-            background: #334155;
+            position: relative;
+            overflow: hidden;
             color: #ffffff;
             border: none;
-            padding: 10px 20px;
+            padding: 14px 28px;
             font-size: 0.9rem;
-            font-weight: 600;
-            border-radius: 8px;
+            font-weight: 700;
+            border-radius: 14px;
             cursor: pointer;
-            transition: all 0.2s ease;
+            background: #1e293b;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
 
+        /* Reflet laser balayant les boutons */
+        button::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -150%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transform: skewX(-30deg);
+            transition: 0.6s;
+        }
+
+        button:hover::before { left: 150%; }
+        button:hover { transform: translateY(-3px); }
+
+        /* Configuration spécifique du bouton actif */
         button.on-btn {
-            background: linear-gradient(135deg, #0ea5e9, #0284c7);
+            background: linear-gradient(135deg, var(--neon-blue), #aa33ff);
+            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
         }
 
-        button.off-btn {
-            background: linear-gradient(135deg, #ef4444, #dc2626);
+        button.off-btn { background: #334155; color: #94a3b8; }
+
+        body.light-on button.off-btn {
+            background: linear-gradient(135deg, #ff416c, #ff4b2b);
+            color: white;
+            box-shadow: 0 10px 20px rgba(255, 75, 43, 0.3);
         }
 
-        button:hover {
-            transform: translateY(-2px);
-            filter: brightness(1.1);
-        }
-
-        button:active {
-            transform: translateY(0);
+        body.light-on button.on-btn {
+            box-shadow: 0 10px 25px rgba(0, 242, 254, 0.4);
         }
     </style>
 </head>
 <body>
 
+    <!-- Particules d'arrière-plan de l'espace -->
+    <div class="particles" id="particles"></div>
+
     <div class="container">
-        <h2>Contrôle d'Attribut Animé</h2>
-        <p>L'image profite maintenant d'un effet visuel de transition à chaque fois que son état change.</p>
+        <h2>Filtre Quantique</h2>
+        <p>Une altération moléculaire de l'environnement se produit lors de l'activation des flux lumineux en arrière-plan.</p>
 
         <div class="image-box">
-            <img id="myImage" src="lionoff.jpg" alt="Affichage interactif">
+            <img id="myImage" src="lionoff.jpg" alt="Entité interactive">
         </div>
 
         <div class="controls">
-            <button class="on-btn" id="btn-on">🦁 Allumer</button>
-            <button class="off-btn" id="btn-off">🌑 Éteindre</button>
+            <button class="on-btn" id="btn-on">⚡ Activer le Flux</button>
+            <button class="off-btn" id="btn-off">🌑 Désactiver</button>
         </div>
     </div>
 
     <script>
+        const body = document.body;
         const image = document.getElementById('myImage');
         const btnOn = document.getElementById('btn-on');
         const btnOff = document.getElementById('btn-off');
+        const particlesContainer = document.getElementById('particles');
 
-        function triggerImageSwap(newSrc) {
-            // 1. On change la source de l'image
-            image.src = newSrc;
-            
-            // 2. On retire la classe d'animation au cas où elle y était déjà
-            image.classList.remove('animate-swap');
-            
-            // 3. On force le navigateur à recalculer le style pour pouvoir relancer l'animation
-            void image.offsetWidth; 
-            
-            // 4. On ajoute la classe pour lancer l'animation
-            image.classList.add('animate-swap');
+        // Génération de petites étoiles en CSS pour l'effet d'espace infini
+        for (let i = 0; i < 40; i++) {
+            const particle = document.createElement('div');
+            particle.style.position = 'absolute';
+            particle.style.width = Math.random() * 3 + 'px';
+            particle.style.height = particle.style.width;
+            particle.style.background = '#fff';
+            particle.style.borderRadius = '50%';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.top = Math.random() * 100 + '%';
+            particle.style.opacity = Math.random();
+            particlesContainer.appendChild(particle);
         }
 
-        btnOn.addEventListener('click', () => {
-            triggerImageSwap('lion.jpg');
-        });
+        function triggerQuantumShift(newSrc, isActive) {
+            image.src = newSrc;
+            
+            // Redéclenchement fluide de l'animation de distorsion de l'image
+            image.classList.remove('animate-swap');
+            void image.offsetWidth; 
+            image.classList.add('animate-swap');
 
-        btnOff.addEventListener('click', () => {
-            triggerImageSwap('lionoff.jpg');
-        });
+            if (isActive) {
+                body.classList.add('light-on');
+            } else {
+                body.classList.remove('light-on');
+            }
+        }
+
+        btnOn.addEventListener('click', () => triggerQuantumShift('lion.jpg', true));
+        btnOff.addEventListener('click', () => triggerQuantumShift('lionoff.jpg', false));
     </script>
 
 </body>
