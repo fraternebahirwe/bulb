@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interrupteur Interactif</title>
+    <title>Interrupteur Interactif Animé</title>
     <style>
         body {
             font-family: 'Segoe UI', system-ui, sans-serif;
@@ -44,6 +44,7 @@
             padding: 15px;
             border-radius: 12px;
             display: inline-block;
+            overflow: hidden;
         }
 
         img {
@@ -51,11 +52,26 @@
             height: 200px;
             object-fit: cover;
             border-radius: 8px;
-            transition: transform 0.2s ease;
+            display: block;
         }
 
-        img:hover {
-            transform: scale(1.02);
+        /* Classe d'animation CSS déclenchée par le JS */
+        .animate-swap {
+            animation: reveal 0.4s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+        }
+
+        /* Animation combinant un léger zoom et un fondu lumineux */
+        @keyframes reveal {
+            0% {
+                opacity: 0.3;
+                transform: scale(0.95);
+                filter: brightness(1.8);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+                filter: brightness(1);
+            }
         }
 
         .controls {
@@ -97,8 +113,8 @@
 <body>
 
     <div class="container">
-        <h2>Contrôle d'Attribut Interactif</h2>
-        <p>Le JavaScript modifie dynamiquement la valeur de l'attribut <code>src</code> de l'image ci-dessous au clic sur les boutons.</p>
+        <h2>Contrôle d'Attribut Animé</h2>
+        <p>L'image profite maintenant d'un effet visuel de transition à chaque fois que son état change.</p>
 
         <div class="image-box">
             <img id="myImage" src="lionoff.jpg" alt="Affichage interactif">
@@ -111,18 +127,30 @@
     </div>
 
     <script>
-        // Sélection des éléments du DOM
         const image = document.getElementById('myImage');
         const btnOn = document.getElementById('btn-on');
         const btnOff = document.getElementById('btn-off');
 
-        // Gestionnaires d'événements propres (sans inline onclick)
+        function triggerImageSwap(newSrc) {
+            // 1. On change la source de l'image
+            image.src = newSrc;
+            
+            // 2. On retire la classe d'animation au cas où elle y était déjà
+            image.classList.remove('animate-swap');
+            
+            // 3. On force le navigateur à recalculer le style pour pouvoir relancer l'animation
+            void image.offsetWidth; 
+            
+            // 4. On ajoute la classe pour lancer l'animation
+            image.classList.add('animate-swap');
+        }
+
         btnOn.addEventListener('click', () => {
-            image.src = 'lion.jpg';
+            triggerImageSwap('lion.jpg');
         });
 
         btnOff.addEventListener('click', () => {
-            image.src = 'lionoff.jpg';
+            triggerImageSwap('lionoff.jpg');
         });
     </script>
 
