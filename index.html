@@ -1,18 +1,130 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interrupteur Interactif</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background-color: #0f172a;
+            color: #f8fafc;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            text-align: center;
+            background: #1e293b;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            max-width: 400px;
+        }
+
+        h2 {
+            color: #38bdf8;
+            margin-top: 0;
+        }
+
+        p {
+            color: #94a3b8;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .image-box {
+            margin: 25px 0;
+            background: #0f172a;
+            padding: 15px;
+            border-radius: 12px;
+            display: inline-block;
+        }
+
+        img {
+            width: 150px;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+            transition: transform 0.2s ease;
+        }
+
+        img:hover {
+            transform: scale(1.02);
+        }
+
+        .controls {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+        }
+
+        button {
+            background: #334155;
+            color: #ffffff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        button.on-btn {
+            background: linear-gradient(135deg, #0ea5e9, #0284c7);
+        }
+
+        button.off-btn {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.1);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+    </style>
+</head>
 <body>
 
-<h2>Look at the image completing  </h2>
+    <div class="container">
+        <h2>Contrôle d'Attribut Interactif</h2>
+        <p>Le JavaScript modifie dynamiquement la valeur de l'attribut <code>src</code> de l'image ci-dessous au clic sur les boutons.</p>
 
-<p>JavaScript can change HTML attribute values.</p>
+        <div class="image-box">
+            <img id="myImage" src="lionoff.jpg" alt="Affichage interactif">
+        </div>
 
-<p>In this case JavaScript changes the value of the src (source) attribute of an image.</p>
+        <div class="controls">
+            <button class="on-btn" id="btn-on">🦁 Allumer</button>
+            <button class="off-btn" id="btn-off">🌑 Éteindre</button>
+        </div>
+    </div>
 
-<button onclick="document.getElementById('myImage').src='lion.jpg'">Turn on the light</button>
+    <script>
+        // Sélection des éléments du DOM
+        const image = document.getElementById('myImage');
+        const btnOn = document.getElementById('btn-on');
+        const btnOff = document.getElementById('btn-off');
 
-<img id="myImage" src="lion.jpg" style="width:150px" height="200px">
+        // Gestionnaires d'événements propres (sans inline onclick)
+        btnOn.addEventListener('click', () => {
+            image.src = 'lion.jpg';
+        });
 
-<button onclick="document.getElementById('myImage').src='lionoff.jpg'" >Turn off the light</button>
+        btnOff.addEventListener('click', () => {
+            image.src = 'lionoff.jpg';
+        });
+    </script>
 
 </body>
 </html>
